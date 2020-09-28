@@ -10,6 +10,9 @@
 # implement this using classes.
 
 class Customer :
+    # Class variable(s)
+    # company_name is of type string with the value of Critter Watch
+    company_name = "Critter Watch"
     # Instance variables
     def __init__(self, fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip) :
         # first_name of type string
@@ -48,11 +51,33 @@ class Customer :
         newCusID = newCusID.replace(" ", "")
         return(newCusID)
 
+    def return_bill(self) : 
+        # Return the following string (NOT print)
+        # Customer greand2677e with name greg anderson owes $123.50 for charlie's stay from 10/01/2020 to 10/20/2020
+
+    def make_payment(self, fPayment) :
+        self.balance = self.balance - fPayment
+        # make_payment() should receive a float value and subtract the amount from the balance attribute and update the balance attribute
 
 
 
-
-# class Pet: 
+# class Pet:
+class Pet() :
+    # Instance Variables:
+    def __init__(self, petName, sBreed, iAge, oOwner) :
+    # pet_name is of type string
+        self.pet_name = petName
+    # breed is of type string
+        self.breed = sBreed
+    # age is of type int
+        self.age = iAge
+    # owner will be the customer object
+        self.owner = oOwner
+    # appointment of type Appointment
+    # When creating the Appointment object and assigning to the appointment attribute
+    # in the Pet constructor, pass the owner to the Appointment constructor
+        # self.appointment = Appointment(owner)
+ 
 
 
 # class Appointment :
