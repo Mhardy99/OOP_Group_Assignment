@@ -39,11 +39,11 @@ class Customer :
 
     def return_bill(self) : 
         # Return summary statement for the customer pet appointment bill
-        return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(self.balance) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) " to " + str(self.cust_pet.appointment.end_date))
+        return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(round(self.balance, 2)) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) + " to " + str(self.cust_pet.appointment.end_date))
         # Customer greand2677e with name greg anderson owes $123.50 for charlie's stay from 10/01/2020 to 10/20/2020
 
     def make_payment(self, fPayment) :
-        self.balance = self.balance - fPayment
+        self.balance = round(self.balance - fPayment, 2)
         # make_payment() should receive a float value and subtract the amount from the balance attribute and update the balance attribute
 
 # class Pet:
@@ -54,7 +54,7 @@ class Pet() :
         self.breed = sBreed
         self.age = iAge
         self.owner = oOwner
-        self.appointment = Appointment(owner)
+        self.appointment = Appointment(self.owner)
 
 # class Appointment :
 class Appointment() :
@@ -62,7 +62,7 @@ class Appointment() :
     def __init__(self, oOwner) :
         self.owner = oOwner
 
-    def set_appointment(self, beginDate, endDate, dayRate)
+    def set_appointment(self, beginDate, endDate, dayRate) :
         self.begin_date = beginDate
         self.end_date = endDate
         self.day_rate = dayRate
@@ -71,7 +71,7 @@ class Appointment() :
 
     def calc_days(self) :
         self.total_days = (self.end_date - self.begin_date).days
-        if(self.total_days <= 0) 
+        if(self.total_days <= 0) :
             self.total_days = 1
         self.total_cost = self.total_days * self.day_rate
         
@@ -90,20 +90,20 @@ print(oCustomer.cust_id)
 
 petName = input("Enter your pet's name: ")
 petBreed = input("Enter your pet's breed: ")
-petAge = int(input("Enter your pet's breed: "))
+petAge = int(input("Enter your pet's age: "))
 
-oPet = Pet(petName, petBreed, petAge, oCustomer)
+oCustomer.cust_pet = Pet(petName, petBreed, petAge, oCustomer)
 
 from datetime import datetime
 
-beginDate = datetime.strptime(input("Enter Start date in the format m/d/y: "), "%m/%d/%Y")
-endDate = datetime.strptime(input("Enter End date in the format m/d/y: "), "%m/%d/%Y")
+beginDate = datetime.strptime(input("Enter Start date in the format m/d/y: "), "%m/%d/%Y").date()
+endDate = datetime.strptime(input("Enter End date in the format m/d/y: "), "%m/%d/%Y").date()
 dayRate = float(input("Enter the rate per day: "))
 
 oCustomer.cust_pet.appointment.set_appointment(beginDate, endDate, dayRate)
-oCustomer.return_bill()
+print(oCustomer.return_bill())
 
 payment = float(input("Enter a payment amount: "))
 oCustomer.make_payment(payment)
 
-oCustomer.return_bill()
+print(oCustomer.return_bill())
