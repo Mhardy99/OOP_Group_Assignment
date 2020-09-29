@@ -5,10 +5,15 @@
 # Alex Bennett
 # Miller Hardy
 
+# This program prompts the user to enter the number of cusotmers for the 
 # Write a program that prompts the user to enter in the number of customers for your Pet Boarding company. You
 # do NOT need to store each customer in a list since we haven't talked about that yet. However, you need to
 # implement this using classes.
 
+
+from datetime import datetime
+
+#Cusotmer class
 class Customer :
 
     # Class variable(s)
@@ -35,14 +40,16 @@ class Customer :
         newCusID = fName[0:3] + lName[0:3] + firstAddress[0:5]
         # Replace any spaces in the string with no space ('')
         newCusID = newCusID.replace(" ", "")
+        # Should it replace spaces before or after? What if the name isn't that long?
         return(newCusID)
 
     def return_bill(self) : 
         # Return summary statement for the customer pet appointment bill
-        return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(round(self.balance, 2)) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) + " to " + str(self.cust_pet.appointment.end_date))
-        # Customer greand2677e with name greg anderson owes $123.50 for charlie's stay from 10/01/2020 to 10/20/2020
+        return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(self.balance) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) + " to " + str(self.cust_pet.appointment.end_date))
+        # How to return number with two decimal places?
 
     def make_payment(self, fPayment) :
+        # recieves (float) payment and 
         self.balance = round(self.balance - fPayment, 2)
         # make_payment() should receive a float value and subtract the amount from the balance attribute and update the balance attribute
 
@@ -77,33 +84,42 @@ class Appointment() :
         
 
 # Code to recieve inputs from the user
-fName = input("Enter First Name: ")
-lName = input("Enter Last Name: ")
-cusAddress1 = input("Enter first address: ")
-cusAddress2 = input("Enter second address: ")
-cusCity = input("Enter city: ")
-cusState = input("Enter state: ")
-cusZip = input("Enter zip code: ")
 
-oCustomer = Customer(fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip)
-print(oCustomer.cust_id)
+numCustomers = int(input("Enter number of customers to enter: "))
+print("\n")
+for iCount in range (0, numCustomers) :
+    fName = input("Enter first name: ")
+    lName = input("Enter last name: ")
+    cusAddress1 = input("Enter first address: ")
+    cusAddress2 = input("Enter second address: ")
+    cusCity = input("Enter city: ")
+    cusState = input("Enter state: ")
+    cusZip = input("Enter zip code: ")
+    print("\n")
 
-petName = input("Enter your pet's name: ")
-petBreed = input("Enter your pet's breed: ")
-petAge = int(input("Enter your pet's age: "))
+    oCustomer = Customer(fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip)
+    print(oCustomer.cust_id)
 
-oCustomer.cust_pet = Pet(petName, petBreed, petAge, oCustomer)
+    petName = input("Enter your pet's name: ")
+    petBreed = input("Enter your pet's breed: ")
+    petAge = int(input("Enter your pet's age: "))
+    print("\n")
 
-from datetime import datetime
+    oCustomer.cust_pet = Pet(petName, petBreed, petAge, oCustomer)
 
-beginDate = datetime.strptime(input("Enter Start date in the format m/d/y: "), "%m/%d/%Y").date()
-endDate = datetime.strptime(input("Enter End date in the format m/d/y: "), "%m/%d/%Y").date()
-dayRate = float(input("Enter the rate per day: "))
+    #beginDate = datetime.strptime(input("Enter start date in the format m/d/y: "), "%m/%d/%Y").date()
+    beginDate = datetime.strptime(input("Enter the appointment start date in the format m/d/y: "), "%m/%d/%Y").date()
+    print(beginDate)
+    # How to get regular date to print???
+    endDate = datetime.strptime(input("Enter end appointment end date in the format m/d/y: "), "%m/%d/%Y").date()
+    dayRate = float(input("Enter the rate per day: "))
+    print("\n")
 
-oCustomer.cust_pet.appointment.set_appointment(beginDate, endDate, dayRate)
-print(oCustomer.return_bill())
+    oCustomer.cust_pet.appointment.set_appointment(beginDate, endDate, dayRate)
+    print(oCustomer.return_bill())
 
-payment = float(input("Enter a payment amount: "))
-oCustomer.make_payment(payment)
+    payment = float(input("Enter a payment amount: "))
+    oCustomer.make_payment(payment)
+    print("\n")
 
-print(oCustomer.return_bill())
+    print(oCustomer.return_bill())
