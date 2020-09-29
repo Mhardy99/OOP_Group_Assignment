@@ -10,49 +10,36 @@
 # implement this using classes.
 
 class Customer :
+
     # Class variable(s)
-    # company_name is of type string with the value of Critter Watch
     company_name = "Critter Watch"
+
     # Instance variables
     def __init__(self, fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip) :
-        # first_name of type string
         self.first_name = fName
-        # last_name of type string
         self.last_name = lName
-        # address1 of type string
         self.address1 = cusAddress1
-        # cust_id of type string
-            # calculate the cust_id by calling gen_id method passing first_name, last_name, and
-            # address1. Make sure there are no trailing or leading spaces in the passed values.
+        # calculates cust_id by calling the gen_id
         self.cust_id = self.gen_id(self.first_name.strip(), self.last_name.strip(), self.address1.strip())
-        # address2 of type string
         self.address2 = cusAddress2
-        # city of type string
         self.city = cusCity
-        # state of type string
         self.state = cusState
-        # zip of type string
         self.zip = cusZip
-        # balance of type float (How much they owe)
         self.balance = 0.0
-        # cust_pet of type Pet 
-            # (In a class diagram when the arrow from the pet class points to the
-            # Customer class that indicates that a Customer object "has a" Pet object. So you will need
-            # to include cust_pet (or some name that you want to use) so that the Customer object can
-            # hold a pet object. 
+        # cust_pet intended to hold a Pet object
         self.cust_pet = None
+
     def gen_id(self, fName, lName, firstAddress) :
-        # gen_id() receives the first_name, last_name, address1 and takes the first 3 letters from
-        # the first name, first 3 letters from the last name, and first 5 letters from the address to
-        # create the cust_id and returns that string value which when called will be assigned back to
-        # the cust_id attribute in the Customer class
-            # Replace any spaces in the string with no space ('')
+        # generates customer id using the first 3 letters from first and last name, and the first
+        # 5 letters of the address
         newCusID = fName[0:3] + lName[0:3] + firstAddress[0:5]
+        # Replace any spaces in the string with no space ('')
         newCusID = newCusID.replace(" ", "")
         return(newCusID)
 
     def return_bill(self) : 
-        # Return the following string (NOT print)
+        # Return summary statement for the appointment of the customer's pet
+        return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(self.balance) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) " to " + str(self.cust_pet.appointment.end_date))
         # Customer greand2677e with name greg anderson owes $123.50 for charlie's stay from 10/01/2020 to 10/20/2020
 
     def make_payment(self, fPayment) :
@@ -63,42 +50,31 @@ class Customer :
 class Pet() :
     # Instance Variables:
     def __init__(self, petName, sBreed, iAge, oOwner) :
-    # pet_name is of type string
         self.pet_name = petName
-    # breed is of type string
         self.breed = sBreed
-    # age is of type int
         self.age = iAge
-    # owner will be the customer object
         self.owner = oOwner
-    # appointment of type Appointment
         self.appointment = Appointment(owner)
-    # When creating the Appointment object and assigning to the appointment attribute
-
-    # in the Pet constructor, pass the owner to the Appointment constructor
-
-        # self.appointment = Appointment(owner)
- 
-
 
 # class Appointment :
-
 class Appointment() :
+
     def __init__(self, oOwner) :
         self.owner = oOwner
+
     def set_appointment(self, beginDate, endDate, dayRate)
         self.begin_date = beginDate
         self.end_date = endDate
         self.day_rate = dayRate
         self.calc_days()
         self.owner.balance = self.total_cost
+
     def calc_days(self) :
         self.total_days = (self.end_date - self.begin_date).days
         if(self.total_days <= 0) 
             self.total_days = 1
         self.total_cost = self.total_days * self.day_rate
         
-        pass
 
 # Code to recieve inputs from the user
 fName = input("Enter First Name: ")
