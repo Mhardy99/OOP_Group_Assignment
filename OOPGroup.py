@@ -118,7 +118,7 @@ oPet = Pet(petName, petBreed, petAge, oCustomer)
 
 from datetime import datetime
 
-beginDate = input("Which day are you dropping off your pet?"), type(datetime)
+beginDate = input("Which day are you dropping off your pet?")
 endDate = input("Which day are you dropping off your pet?")
 
 beginDate = datetime.strptime(beginDate, '%d/%m/%y')
