@@ -87,3 +87,20 @@ cusZip = input("Enter zip code: ")
 
 oCustomer = Customer(fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip)
 print(oCustomer.cust_id)
+
+petName = input("Enter your pet's name: ")
+petBreed = input("Enter your pet's breed: ")
+petAge = int(input("What is your pet's breed: "))
+
+oPet = Pet(petName, petBreed, petAge, oCustomer)
+
+from datetime import datetime
+
+beginDate = input("Which day are you dropping off your pet?")
+endDate = input("Which day are you dropping off your pet?")
+
+beginDate = datetime.strptime(beginDate, '%d/%m/%y')
+endDate = datetime.strptime(endDate, '%d/%m/%y')
+
+calc_days()
+owner.balance = self.total_cost 
