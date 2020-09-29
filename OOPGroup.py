@@ -5,55 +5,49 @@
 # Alex Bennett
 # Miller Hardy
 
-# This program prompts the user to enter the number of cusotmers for the 
-# Write a program that prompts the user to enter in the number of customers for your Pet Boarding company. You
-# do NOT need to store each customer in a list since we haven't talked about that yet. However, you need to
-# implement this using classes.
-
+# This program prompts the user to enter the number of cusotmers for the "Critter Watch" Pet Boarding company.
+# Data on each customer, their pet, and their pet's appointment is recorded, and a bill statement is printed.
+# The user can then specify a payment, and an updated bill statement is printed for the current customer.
 
 from datetime import datetime
 
 #Cusotmer class
 class Customer :
 
-    # Class variable(s)
+    # Class variable
     company_name = "Critter Watch"
 
-    # Instance variables
+    # Constructor - receives parameters from user to assign to attributes
     def __init__(self, fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip) :
         self.first_name = fName
         self.last_name = lName
         self.address1 = cusAddress1
-        # calculates cust_id by calling the gen_id
+        # calculates cust_id by calling the gen_id method; passes parameters with leading/trailing spaces removed
         self.cust_id = self.gen_id(self.first_name.strip(), self.last_name.strip(), self.address1.strip())
         self.address2 = cusAddress2
         self.city = cusCity
         self.state = cusState
         self.zip = cusZip
         self.balance = 0.0
-        # cust_pet intended to hold a Pet object
+        # cust_pet intended to hold a list Pet object
         self.cust_pet = None
 
+    # generates customer id using the first 3 letters from first and last name, and the first 5 letters of the address
     def gen_id(self, fName, lName, firstAddress) :
-        # generates customer id using the first 3 letters from first and last name, and the first
-        # 5 letters of the address
         newCusID = fName[0:3] + lName[0:3] + firstAddress[0:5]
         # Replace any spaces in the string with no space ('')
         newCusID = newCusID.replace(" ", "")
-        # Should it replace spaces before or after? What if the name isn't that long?
         return(newCusID)
 
+    # Return summary statement for the customer pet appointment bill
     def return_bill(self) : 
-        # Return summary statement for the customer pet appointment bill
         return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + str(self.balance) + " for " + self.cust_pet.pet_name + "'s stay from " + str(self.cust_pet.appointment.begin_date) + " to " + str(self.cust_pet.appointment.end_date))
-        # How to return number with two decimal places?
 
+    # receives payment from the user and updates the customer balance
     def make_payment(self, fPayment) :
-        # recieves (float) payment and 
         self.balance = round(self.balance - fPayment, 2)
-        # make_payment() should receive a float value and subtract the amount from the balance attribute and update the balance attribute
 
-# class Pet:
+# Pet class:
 class Pet() :
     # Instance Variables:
     def __init__(self, petName, sBreed, iAge, oOwner) :
@@ -61,33 +55,42 @@ class Pet() :
         self.breed = sBreed
         self.age = iAge
         self.owner = oOwner
+        # creates new appointment object
         self.appointment = Appointment(self.owner)
 
-# class Appointment :
+# Appointment class:
 class Appointment() :
 
+    # constructor
     def __init__(self, oOwner) :
         self.owner = oOwner
 
+    # receives parameters from the user and stores them to attributes
     def set_appointment(self, beginDate, endDate, dayRate) :
         self.begin_date = beginDate
         self.end_date = endDate
         self.day_rate = dayRate
+        # calls the calc_days() method to generate additional attributes
         self.calc_days()
+        # add cost to customer balance
         self.owner.balance = self.total_cost
 
+    # determines how many days the appointment lasted and the total cost of the appointment
     def calc_days(self) :
         self.total_days = (self.end_date - self.begin_date).days
+        # If the appointment began and ended on the same day, count it as 1 day
         if(self.total_days <= 0) :
             self.total_days = 1
         self.total_cost = self.total_days * self.day_rate
         
 
-# Code to recieve inputs from the user
-
+# recieve inputs from the user
 numCustomers = int(input("Enter number of customers to enter: "))
 print("\n")
+
+# collect customer, pet, and appointment information for each customer 
 for iCount in range (0, numCustomers) :
+    # collect customer information
     fName = input("Enter first name: ")
     lName = input("Enter last name: ")
     cusAddress1 = input("Enter first address: ")
@@ -98,8 +101,8 @@ for iCount in range (0, numCustomers) :
     print("\n")
 
     oCustomer = Customer(fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip)
-    print(oCustomer.cust_id)
 
+    # collect pet information
     petName = input("Enter your pet's name: ")
     petBreed = input("Enter your pet's breed: ")
     petAge = int(input("Enter your pet's age: "))
@@ -107,10 +110,8 @@ for iCount in range (0, numCustomers) :
 
     oCustomer.cust_pet = Pet(petName, petBreed, petAge, oCustomer)
 
-    #beginDate = datetime.strptime(input("Enter start date in the format m/d/y: "), "%m/%d/%Y").date()
+    # collect appointment information
     beginDate = datetime.strptime(input("Enter the appointment start date in the format m/d/y: "), "%m/%d/%Y").date()
-    print(beginDate)
-    # How to get regular date to print???
     endDate = datetime.strptime(input("Enter end appointment end date in the format m/d/y: "), "%m/%d/%Y").date()
     dayRate = float(input("Enter the rate per day: "))
     print("\n")
