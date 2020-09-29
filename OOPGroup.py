@@ -59,8 +59,6 @@ class Customer :
         self.balance = self.balance - fPayment
         # make_payment() should receive a float value and subtract the amount from the balance attribute and update the balance attribute
 
-
-
 # class Pet:
 class Pet() :
     # Instance Variables:
@@ -74,13 +72,33 @@ class Pet() :
     # owner will be the customer object
         self.owner = oOwner
     # appointment of type Appointment
+        self.appointment = Appointment(owner)
     # When creating the Appointment object and assigning to the appointment attribute
+
     # in the Pet constructor, pass the owner to the Appointment constructor
+
         # self.appointment = Appointment(owner)
  
 
 
 # class Appointment :
+
+class Appointment() :
+    def __init__(self, oOwner) :
+        self.owner = oOwner
+    def set_appointment(self, beginDate, endDate, dayRate)
+        self.begin_date = beginDate
+        self.end_date = endDate
+        self.day_rate = dayRate
+        self.calc_days()
+        self.owner.balance = self.total_cost
+    def calc_days(self) :
+        self.total_days = (self.end_date - self.begin_date).days
+        if(self.total_days <= 0) 
+            self.total_days = 1
+        self.total_cost = self.total_days * self.day_rate
+        
+        pass
 
 # Code to recieve inputs from the user
 fName = input("Enter First Name: ")
