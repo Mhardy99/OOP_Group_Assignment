@@ -93,7 +93,7 @@ numCustomers = int(input("Enter number of customers to enter: "))
 # collect customer, pet, and appointment information for each customer 
 for iCount in range (0, numCustomers) :
     # collect customer information
-    print("Information for customer number " + str(iCount))
+    print("Information for customer number " + str(iCount + 1))
     fName = input("\nEnter first name: ")
     lName = input("Enter last name: ")
     cusAddress1 = input("Enter first address: ")
@@ -108,7 +108,7 @@ for iCount in range (0, numCustomers) :
     petNumber = int(input("\nEnter number of pets: "))
 
     for jCount in range (0, petNumber) :
-        print("Information for pet number " + str(jCount))
+        print("Information for pet number " + str(jCount + 1))
         petName = input("\nEnter pet's name: ")
         petBreed = input("Enter pet's breed: ")
         petAge = int(input("Enter pet's age: "))
@@ -128,3 +128,4 @@ for iCount in range (0, numCustomers) :
         oCustomer.make_payment(payment)
 
         print(oCustomer.return_bill())
+        print("\n")
