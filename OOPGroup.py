@@ -43,8 +43,8 @@ class Customer :
     def return_bill(self) : 
         return("Customer " + self.cust_id + " with name " + self.first_name + " " + self.last_name + " owes $" + \
             str(self.balance) + " for " + self.cust_pet[len(self.cust_pet) - 1].pet_name + "'s stay from " + \
-                str(self.cust_pet[len(self.cust_pet) - 1].appointment.begin_date.strftime("%m/%d/%Y")) + " to " + \
-                str(self.cust_pet[len(self.cust_pet) - 1].appointment.end_date.strftime("%m/%d/%Y")))
+                str(self.cust_pet[len(self.cust_pet) - 1].appointment[len(self.cust_pet[len(self.cust_pet) - 1].appointment) - 1].begin_date.strftime("%m/%d/%Y")) + " to " + \
+                str(self.cust_pet[len(self.cust_pet) - 1].appointment[len(self.cust_pet[len(self.cust_pet) - 1].appointment) - 1].end_date.strftime("%m/%d/%Y")))
 
     # receives payment from the user and updates the customer balance
     def make_payment(self, fPayment) :
@@ -58,8 +58,9 @@ class Pet() :
         self.breed = sBreed
         self.age = iAge
         self.owner = oOwner
+        self.appointment = []
         # creates new appointment object 
-        self.appointment = Appointment(self.owner)
+        self.appointment.append(Appointment(self.owner))
 
 # Appointment class:
 class Appointment() :
@@ -87,13 +88,15 @@ class Appointment() :
         self.total_cost = self.total_days * self.day_rate
         
 
-# recieve inputs from the user
+# collect customer, pet, and appointment information for each customer 
+# determine number of customers
 numCustomers = int(input("Enter number of customers to enter: "))
 
-# collect customer, pet, and appointment information for each customer 
+# collect information for each Customer
 for iCount in range (0, numCustomers) :
+
     # collect customer information
-    print("Information for customer number " + str(iCount + 1))
+    print("\nInformation for customer number " + str(iCount + 1))
     fName = input("\nEnter first name: ")
     lName = input("Enter last name: ")
     cusAddress1 = input("Enter first address: ")
@@ -104,28 +107,35 @@ for iCount in range (0, numCustomers) :
 
     oCustomer = Customer(fName, lName, cusAddress1, cusAddress2, cusCity, cusState, cusZip)
 
-    # collect pet information
-    petNumber = int(input("\nEnter number of pets: "))
+    # determine number of pets for current customer
+    petCount = int(input("\nEnter number of pets: "))
 
-    for jCount in range (0, petNumber) :
-        print("Information for pet number " + str(jCount + 1))
+    # collect pet information for each pet by iterating through the list
+    for jCount in range (0, petCount) :
+        print("\nInformation for pet number " + str(jCount + 1))
         petName = input("\nEnter pet's name: ")
         petBreed = input("Enter pet's breed: ")
         petAge = int(input("Enter pet's age: "))
 
+        # creates new pet object and appends to customer list
         oCustomer.cust_pet.append(Pet(petName, petBreed, petAge, oCustomer))
 
-        # collect appointment information
-        beginDate = datetime.strptime(input("\nEnter the appointment start date in the format m/d/y: "), "%m/%d/%Y").date()
-        endDate = datetime.strptime(input("Enter end appointment end date in the format m/d/y: "), "%m/%d/%Y").date()
-        dayRate = float(input("Enter the rate per day: "))
-        print("\n")
+        # determine number of appointments for current pet
+        appointCount = int(input("\nEnter number of appointments for " + oCustomer.cust_pet[len(oCustomer.cust_pet) - 1].pet_name + ": "))
 
-        oCustomer.cust_pet[len(oCustomer.cust_pet) - 1].appointment.set_appointment(beginDate, endDate, dayRate)
-        print(oCustomer.return_bill())
+        # collect appointment information for each appointment by iterating through the list
+        for kCount in range (0, appointCount) :
+            print("\nInformation for appointment number " + str(kCount + 1))
+            beginDate = datetime.strptime(input("\nEnter the appointment start date in the format m/d/y: "), "%m/%d/%Y").date()
+            endDate = datetime.strptime(input("Enter end appointment end date in the format m/d/y: "), "%m/%d/%Y").date()
+            dayRate = float(input("Enter the rate per day: "))
+            print("\n")
 
-        payment = float(input("Enter a payment amount: "))
-        oCustomer.make_payment(payment)
+            oCustomer.cust_pet[len(oCustomer.cust_pet) - 1].appointment[len(oCustomer.cust_pet[len(oCustomer.cust_pet) - 1].appointment) - 1].set_appointment(beginDate, endDate, dayRate)
+            print(oCustomer.return_bill())
 
-        print(oCustomer.return_bill())
-        print("\n")
+            payment = float(input("Enter a payment amount: "))
+            oCustomer.make_payment(payment)
+
+            print(oCustomer.return_bill())
+            print("\n")
